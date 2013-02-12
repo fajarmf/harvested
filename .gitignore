@@ -21,8 +21,9 @@ doc
 .yardoc
 
 ## PROJECT::SPECIFIC
-features/support/harvest_credentials.yml
-spec/support/harvest_credentials.yml
+#remove from gitignore for travis test
+#features/support/harvest_credentials.yml
+#spec/support/harvest_credentials.yml
 .cassettes
 .rbx
 
