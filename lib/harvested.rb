@@ -36,7 +36,22 @@ module Harvest
     #
     # @return [Harvest::Base]
     def client(subdomain, username, password, options = {})
-      Harvest::Base.new(subdomain, username, password, options)
+      options[:ssl] = true if options[:ssl].nil?
+      credentials = PasswordCredentials.new(subdomain, username, password, options[:ssl])
+      Harvest::Base.new(credentials, options)
+    end
+
+    # Creates a client that takes token instead of username and password. it will raise all errors it encounters
+    #
+    # == Options
+    # * +:ssl+ - Whether or not to use SSL when connecting to Harvest. This is dependent on whether your account supports it. Set to +true+ by default
+    # == Examples
+    #   Harvest.client('mysubdomain', 'myusername', 'mypassword', :ssl => false)
+    #
+    # @return [Harvest::Base]
+    def token_client(subdomain, token, options = {})
+      credentials = TokenCredentials.new(subdomain, token, options[:ssl])
+      Harvest::Base.new(credentials, options)
     end
 
     # Creates a hardy client that will retry common HTTP errors it encounters and sleep() if it determines it is over your rate limit

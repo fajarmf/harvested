@@ -4,10 +4,9 @@ module Harvest
 
     # @see Harvest.client
     # @see Harvest.hardy_client
-    def initialize(subdomain, username, password, options = {})
-      options[:ssl] = true if options[:ssl].nil?
-      @credentials = Credentials.new(subdomain, username, password, options[:ssl])
-      raise InvalidCredentials unless credentials.valid?
+    def initialize(credentials, options = {})
+      @credentials = credentials
+      raise InvalidCredentials if !credentials || !credentials.valid?
     end
 
     # All API actions surrounding accounts
