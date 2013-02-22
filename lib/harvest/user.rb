@@ -31,6 +31,10 @@ module Harvest
       super
     end
 
+    def name
+      "#{first_name} #{last_name}"
+    end
+
     # Sets the timezone for the user. This can be done in a variety of ways.
     #
     # == Examples
