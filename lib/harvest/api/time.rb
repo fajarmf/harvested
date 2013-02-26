@@ -13,8 +13,8 @@ module Harvest
         Harvest::TimeEntry.parse(JSON.parse(response.body)["day_entries"])
       end
       
-      def create(entry)
-        response = request(:post, credentials, '/daily/add', :body => entry.to_json)
+      def create(entry, user = nil)
+        response = request(:post, credentials, '/daily/add', :body => entry.to_json, query: of_user_query(user))
         Harvest::TimeEntry.parse(response.parsed_response).first
       end
       
@@ -26,6 +26,11 @@ module Harvest
       def delete(entry, user = nil)
         request(:delete, credentials, "/daily/delete/#{entry.to_i}", :query => of_user_query(user))
         entry.id
+      end
+
+      def toggle(id, user=nil)
+        response = request(:get, credentials, "/daily/timer/#{id.to_i}", query: of_user_query(user))
+        Harvest::TimeEntry.parse(response.parsed_response).first
       end
     end
   end
